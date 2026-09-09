@@ -254,6 +254,51 @@ export function ChatRightSidebar({
               </div>
             ) : showCampaignBlock ? (
               <div className="space-y-2 rounded-lg bg-white/70 border border-amber-100/80 px-2.5 py-2.5">
+                {(adInsights?.adImageUrl || adDisplayName || conversation.adId || adInsights?.adId) && (
+                  <div className="flex gap-2.5 items-start">
+                    {adInsights?.adImageUrl ? (
+                      <a
+                        href={adInsights.adImageUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="shrink-0 block rounded-md overflow-hidden border border-amber-100 bg-slate-50 w-16 h-16"
+                        title="Mở ảnh quảng cáo"
+                      >
+                        <img
+                          src={adInsights.adImageUrl}
+                          alt={adDisplayName || 'Ảnh quảng cáo'}
+                          className="w-full h-full object-cover"
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                        />
+                      </a>
+                    ) : hasSpecificAd ? (
+                      <div className="shrink-0 w-16 h-16 rounded-md border border-dashed border-amber-200 bg-amber-50/50 flex items-center justify-center">
+                        <Megaphone className="w-5 h-5 text-amber-400" />
+                      </div>
+                    ) : null}
+                    <div className="min-w-0 flex-1 space-y-1">
+                      {adDisplayName && (
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-slate-400 font-medium text-[10px]">
+                            {hasSpecificAd ? 'Tên quảng cáo / sản phẩm' : 'Quảng cáo tham chiếu'}
+                          </span>
+                          <span className="text-slate-800 font-semibold leading-snug text-[12px]">
+                            {adDisplayName}
+                          </span>
+                        </div>
+                      )}
+                      {(conversation.adId || adInsights?.adId) && (
+                        <div className="flex flex-col gap-0.5">
+                          <span className="text-slate-400 font-medium text-[10px]">ID quảng cáo</span>
+                          <span className="text-slate-600 font-mono text-[10px] select-all break-all">
+                            {conversation.adId || adInsights?.adId}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
                 {campaignName && (
                   <div className="flex flex-col gap-0.5">
                     <span className="text-slate-400 font-medium text-[10px]">Chiến dịch</span>
@@ -266,26 +311,17 @@ export function ChatRightSidebar({
                     <span className="text-slate-700 font-medium leading-snug">{adInsights.adsetName}</span>
                   </div>
                 )}
-                {adDisplayName && (
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-slate-400 font-medium text-[10px]">
-                      {hasSpecificAd ? 'Tên quảng cáo' : 'Quảng cáo tham chiếu'}
-                    </span>
-                    <span className="text-slate-700 font-medium leading-snug">{adDisplayName}</span>
+                {!hasSpecificAd && (
+                  <div className="rounded-md border border-dashed border-amber-200/80 bg-amber-50/40 px-2 py-1.5 space-y-0.5">
+                    <p className="text-[10px] font-medium text-amber-900/80">
+                      Chưa có ảnh / ID quảng cáo cụ thể
+                    </p>
+                    <p className="text-[9px] text-slate-500 leading-relaxed">
+                      {isPageEstimate || isCampaignEstimate
+                        ? 'Meta không gửi mã ad (ad_id) cho tin này — CRM chỉ ước tính theo chiến dịch/Page, không lấy được creative.'
+                        : 'Cần ad_id từ webhook referral (Click-to-Messenger) mới hiện ảnh và tên sản phẩm của đúng quảng cáo.'}
+                    </p>
                   </div>
-                )}
-                {(conversation.adId || adInsights?.adId) && (
-                  <div className="flex flex-col gap-0.5">
-                    <span className="text-slate-400 font-medium text-[10px]">Mã quảng cáo</span>
-                    <span className="text-slate-600 font-mono text-[10px] select-all">
-                      {conversation.adId || adInsights?.adId}
-                    </span>
-                  </div>
-                )}
-                {!hasSpecificAd && isPageEstimate && (
-                  <p className="text-[9px] text-slate-400 leading-relaxed pt-0.5">
-                    Meta không gắn mã QC cho tin này — hiển thị camp QC đang chạy mạnh nhất trên Page.
-                  </p>
                 )}
               </div>
             ) : (

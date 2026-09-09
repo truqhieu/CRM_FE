@@ -953,6 +953,8 @@ export interface CskhAdInsights {
   adName: string | null
   adsetName: string | null
   campaignName: string | null
+  /** Ảnh creative / thumbnail từ Meta Marketing API */
+  adImageUrl?: string | null
   currency: string | null
   spend: number | null
   impressions: number | null
