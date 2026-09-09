@@ -11,11 +11,13 @@ import {
   translateInboxConversation,
   notifyInboxTyping,
   markInboxAsUnread,
+  type CskhAdInsights,
   type CskhInboxConversation,
   type CskhInboxMessage,
 } from './api'
 import { ChatMessage } from './ChatMessage'
 import { ChatMessageInput } from './ChatMessageInput'
+import { ConversationAdBanner } from './ConversationAdBanner'
 import { ChatLabelBar, ConversationLabelBadges } from './ChatLabelBar'
 import { ConversationViewHistory } from './ConversationViewHistory'
 import { TypingIndicator } from './TypingIndicator'
@@ -33,6 +35,8 @@ type ChatPanelProps = {
   onDraftApplied?: () => void
   assistantOpen?: boolean
   onToggleAssistant?: () => void
+  adInsights?: CskhAdInsights | null
+  isLoadingAdInsights?: boolean
 }
 
 export function ChatPanel({
@@ -44,6 +48,8 @@ export function ChatPanel({
   onDraftApplied,
   assistantOpen,
   onToggleAssistant,
+  adInsights,
+  isLoadingAdInsights,
 }: ChatPanelProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
   const lastMessageIdRef = useRef<string>('')
@@ -477,6 +483,17 @@ export function ChatPanel({
             ? `${conversationWithLabels.pendingViewerCount} người đã xem nhưng chưa chốt — nhấn để xem ai`
             : 'Đã xem nhưng chưa chốt — nhấn để xem ai đã mở hội thoại'}
         </button>
+      )}
+
+      {/* Ghim QC phía trên khung chat — không để scroll xuống đáy che mất */}
+      {!showInitialLoader && (
+        <div className="shrink-0 px-4 pt-2 pb-1 border-b border-amber-100/60 bg-amber-50/30">
+          <ConversationAdBanner
+            conversation={conversationWithLabels}
+            adInsights={adInsights}
+            isLoadingAdInsights={isLoadingAdInsights}
+          />
+        </div>
       )}
 
       {/* Messages Area */}
