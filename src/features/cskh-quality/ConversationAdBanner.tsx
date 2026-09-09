@@ -34,8 +34,10 @@ export function ConversationAdBanner({
   return (
     <div className="flex justify-start">
       <div className="max-w-[min(100%,280px)] rounded-2xl rounded-bl-md border border-slate-200/80 bg-white shadow-sm overflow-hidden">
-        <div className="px-2.5 pt-1.5 pb-1">
-          <p className="text-[10px] text-slate-400 font-medium">Đã trả lời một quảng cáo</p>
+          <div className="px-2.5 pt-1.5 pb-1">
+          <p className="text-[10px] text-slate-400 font-medium">
+            Quảng cáo gần nhất trên hội thoại này
+          </p>
         </div>
 
         {isLoadingAdInsights && !hasIdentity ? (
