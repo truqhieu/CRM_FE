@@ -519,11 +519,14 @@ export function ChatPanel({
                 <Loader2 className="w-4 h-4 animate-spin text-indigo-300" />
               </div>
             )}
-            <ConversationAdBanner
-              conversation={conversationWithLabels}
-              adInsights={adInsights}
-              isLoadingAdInsights={isLoadingAdInsights}
-            />
+            {/* Chỉ hiện thẻ QC legacy khi chưa có tin ad_referral trong thread */}
+            {!displayMessages.some((m) => m.messageType === 'ad_referral') && (
+              <ConversationAdBanner
+                conversation={conversationWithLabels}
+                adInsights={adInsights}
+                isLoadingAdInsights={isLoadingAdInsights}
+              />
+            )}
             {displayMessages.map((msg, idx) => (
               <ChatMessage
                 key={msg.id}
