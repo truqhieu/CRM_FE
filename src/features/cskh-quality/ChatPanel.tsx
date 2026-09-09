@@ -485,17 +485,6 @@ export function ChatPanel({
         </button>
       )}
 
-      {/* Ghim QC phía trên khung chat — không để scroll xuống đáy che mất */}
-      {!showInitialLoader && (
-        <div className="shrink-0 px-4 pt-2 pb-1 border-b border-amber-100/60 bg-amber-50/30">
-          <ConversationAdBanner
-            conversation={conversationWithLabels}
-            adInsights={adInsights}
-            isLoadingAdInsights={isLoadingAdInsights}
-          />
-        </div>
-      )}
-
       {/* Messages Area */}
       <div
         ref={scrollRef}
@@ -509,8 +498,13 @@ export function ChatPanel({
             <Loader2 className="w-8 h-8 animate-spin text-indigo-400" />
           </div>
         ) : displayMessages.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-slate-400">
-            <AlertCircle className="w-10 h-10 mb-2 opacity-40" />
+          <div className="flex flex-col items-center justify-center h-full text-slate-400 gap-3">
+            <ConversationAdBanner
+              conversation={conversationWithLabels}
+              adInsights={adInsights}
+              isLoadingAdInsights={isLoadingAdInsights}
+            />
+            <AlertCircle className="w-10 h-10 opacity-40" />
             <p className="text-sm font-medium">Không có tin nhắn nào</p>
           </div>
         ) : (
@@ -525,6 +519,11 @@ export function ChatPanel({
                 <Loader2 className="w-4 h-4 animate-spin text-indigo-300" />
               </div>
             )}
+            <ConversationAdBanner
+              conversation={conversationWithLabels}
+              adInsights={adInsights}
+              isLoadingAdInsights={isLoadingAdInsights}
+            />
             {displayMessages.map((msg, idx) => (
               <ChatMessage
                 key={msg.id}
